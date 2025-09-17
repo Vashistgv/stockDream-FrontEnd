@@ -27,14 +27,20 @@ type ClientPageProps = {
 
 // Mock fallback with new structure
 
-export default function JoinGroup({ params }: ClientPageProps) {
+export default function JoinGroup({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [groupId, setGroupId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [stocks, setStocks] = useState<Stock[]>([]);
   const router = useRouter();
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
   useEffect(() => {
-    if (params.id) {
-      API.get(`/api/groups/${params.id}`)
+    if (groupId) {
+      API.get(`/api/groups/${groupId}`)
         .then((res) => {
           const { group, quotes } = res.data.data;
 
@@ -59,7 +65,16 @@ export default function JoinGroup({ params }: ClientPageProps) {
         })
         .catch((err) => console.log(err));
     }
-  }, [params.id]);
+  }, [groupId]);
+
+  useEffect(() => {
+    async function load() {
+      const { id } = await params;
+      setGroupId(id);
+      setLoading(true);
+    }
+    load();
+  }, [params]);
 
   const toggleStock = (symbol: string) => {
     if (selectedStocks.includes(symbol)) {
