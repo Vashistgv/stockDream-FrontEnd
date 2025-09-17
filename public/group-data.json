@@ -1,0 +1,37 @@
+[
+  {
+    "id": "group1",
+    "name": "Tech Stocks Enthusiasts",
+    "price": 500,
+    "members": 12,
+    "winningPrize": 4500
+  },
+  {
+    "id": "group2",
+    "name": "Blue Chip Investors",
+    "price": 1000,
+    "members": 25,
+    "winningPrize": 15000
+  },
+  {
+    "id": "group3",
+    "name": "Growth Stocks Group",
+    "price": 1500,
+    "members": 18,
+    "winningPrize": 27000
+  },
+  {
+    "id": "group4",
+    "name": "Dividend Kings",
+    "price": 2000,
+    "members": 30,
+    "winningPrize": 60000
+  },
+  {
+    "id": "group5",
+    "name": "Weekend Traders",
+    "price": 2500,
+    "members": 20,
+    "winningPrize": 50000
+  }
+]
