@@ -155,15 +155,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const logout = async () => {
+  const logout = async (): Promise<LoginResponse> => {
     dispatch({ type: "SET_LOADING", payload: true });
     localStorage.clear();
     try {
       await authService.logout();
-    } catch {
-      // ignore API failure
-    } finally {
       dispatch({ type: "LOGOUT" });
+      return { success: true, data: null };
+    } catch (error: any) {
+      dispatch({ type: "LOGOUT" });
+      return { success: false, data: error?.message || "Logout failed" };
     }
   };
 
