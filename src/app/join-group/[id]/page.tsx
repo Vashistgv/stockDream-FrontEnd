@@ -21,10 +21,6 @@ interface Stock {
   quote: Quote;
 }
 
-type ClientPageProps = {
-  params: { id: string };
-};
-
 // Mock fallback with new structure
 
 export default function JoinGroup({
@@ -86,13 +82,13 @@ export default function JoinGroup({
 
   const handleJoinGroup = () => {
     if (selectedStocks.length === 5) {
-      API.post(`/api/groups/${params.id}/join`, {
+      API.post(`/api/groups/${groupId}/join`, {
         userId: currentUser._id || currentUser.id,
         selectedStocks: selectedStocks,
       })
         .then((res) => {
           console.log(res);
-          router.push(`/group-members/${params.id}`);
+          router.push(`/group-members/${groupId}`);
         })
         .catch((err) => console.log(err));
     } else {
