@@ -2,8 +2,6 @@
 
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import { authService, User, RegisterData, LoginData } from "@/lib/auth";
-import { th } from "zod/v4/locales";
-import { success } from "zod";
 
 interface AuthState {
   user: User | null;
