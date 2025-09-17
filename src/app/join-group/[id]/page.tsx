@@ -21,15 +21,13 @@ interface Stock {
   quote: Quote;
 }
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+type ClientPageProps = {
+  params: { id: string };
+};
 
 // Mock fallback with new structure
 
-export default function JoinGroup({ params }: PageProps) {
+export default function JoinGroup({ params }: ClientPageProps) {
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [stocks, setStocks] = useState<Stock[]>([]);
   const router = useRouter();
