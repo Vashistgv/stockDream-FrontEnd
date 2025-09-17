@@ -28,7 +28,8 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 export default function RegisterPage() {
   const router = useRouter();
   const { register: Register } = useAuth();
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -38,15 +39,20 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log("register form -->", data);
-    // TODO: send to API
+    try {
+      // Automatically assign role = "user"
+      const payload = { ...data, role: "user" as const };
+      console.log("Register payload →", payload);
 
-    const response = await Register(data);
-    console.log("register form -->", response);
-    if (response.success) {
-      router.push("/dashboard");
-    } else {
-      setLoginError(response.data || "Registration failed");
+      const response = await Register(payload);
+
+      if (response.success) {
+        router.push("/dashboard");
+      } else {
+        setErrorMessage(response.data || "Registration failed");
+      }
+    } catch (err) {
+      setErrorMessage("Something went wrong, please try again.");
     }
   };
 
@@ -76,12 +82,13 @@ export default function RegisterPage() {
               Enter details to get started
             </p>
           </div>
-          {loginError && (
+
+          {errorMessage && (
             <Alert
               variant="destructive"
               className="w-full relative max-w-md mx-auto mb-4 p-4 border border-red-600 bg-neutral-900 rounded text-red-500"
             >
-              <p>{loginError}</p>
+              <p>{errorMessage}</p>
             </Alert>
           )}
           <form
@@ -143,7 +150,7 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Terms checkbox */}
+            {/* Terms */}
             <div className="flex items-start gap-2 text-sm text-muted-foreground">
               <input
                 id="terms"
