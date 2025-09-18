@@ -11,7 +11,9 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:5000/api/:path*",
+        destination:
+          `${process.env.NEXT_TRARGET_API_URL}/api/:path*` ||
+          "http://localhost:5000/api/:path*",
       },
     ];
   },
