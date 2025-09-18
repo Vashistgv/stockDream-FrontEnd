@@ -64,7 +64,7 @@ export const authService = {
     }
   },
   async logout() {
-    await API.get("/api/logout")
+    await API.get("/logout")
       .then((response) => {
         console.log("Logout successful");
         return response;
