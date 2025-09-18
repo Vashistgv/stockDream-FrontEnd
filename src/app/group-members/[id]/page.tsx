@@ -6,6 +6,7 @@ import GroupHeader from "@/components/Group/GroupHeader";
 import GroupStats from "@/components/Group/GroupStats";
 import Leaderboard from "@/components/Group/Leaderboard";
 import API from "@/utils/API";
+import Link from "next/link";
 
 interface Member {
   id: string;
@@ -37,6 +38,7 @@ export default function GroupMembersPage({
   const [group, setGroup] = useState<GroupData | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [isAuth, setIsAuth] = useState<boolean>(false);
   console.log("group", group);
 
   useEffect(() => {
@@ -56,14 +58,44 @@ export default function GroupMembersPage({
         setGroup(response.data.data.group);
         setLoading(false);
       } catch (err) {
-        console.log(err);
+        setLoading(false);
+        setIsAuth(true);
+        console.log("groupmember error ", err);
       }
     }
     fetchGroup();
   }, [groupId]);
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
-  if (!group) return <p className="text-center mt-10">Group not found</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+
+  if (isAuth) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-12 w-full border-1 ">
+          <p className="text-center mt-10">
+            You are not LogedIn Please{" "}
+            <Link className="text-blue-500" href="/login">
+              Login
+            </Link>{" "}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!group)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-12 w-full border-4 ">
+          <p className="text-center mt-10">Group Not Found</p>
+        </div>
+      </div>
+    );
 
   const members: Member[] = group.members.map((m) => ({
     id: m.userId._id,

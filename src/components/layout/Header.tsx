@@ -125,7 +125,10 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
           ) : (
             <Button
               onClick={() => router.push("/login")}
-              className="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer hover:bg-[rgb(var( --chart-2))]/10"
+              className={`flex-1 p-4  w-[80px] rounded-lg text-sm
+                bg-[rgb(var(--color-card))]
+                 font-medium transition-colors cursor-pointer border  
+                 border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))`}
               size="sm"
             >
               Login

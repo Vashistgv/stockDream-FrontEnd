@@ -27,11 +27,13 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, isActive, onClick }) => {
     <div
       className={`group-card ${
         isActive ? "active" : ""
-      } px-6 py-6 rounded-xl shadow-lg mb-6 bg-white ${
-        isActive
-          ? "bg-[rgb(var(--color-primary))] text-white"
-          : "bg-[#181E2A] text-white"
-      } transition-colors`}
+      } px-6 py-6 rounded-xl shadow-lg mb-6 transition-colors
+  ${
+    isActive
+      ? "bg-[rgb(var(--color-primary))] text-white"
+      : "bg-white text-gray-800 dark:bg-[#181E2A] dark:text-white"
+  }
+`}
       onClick={onClick}
       style={{ minWidth: 260, maxWidth: 320 }}
     >
