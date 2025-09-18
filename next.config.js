@@ -6,13 +6,14 @@ const nextConfig = {
   env: {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_TRARGET_API_URL: process.env.NEXT_TRARGET_API_URL,
   },
   async rewrites() {
     return [
       {
         source: "/api/:path*",
         destination: process.env.NEXT_TRARGET_API_URL
-          ? `${process.env.NEXT_TRARGET_API_URL}/api/:path*`
+          ? `${process.env.NEXT_TRARGET_API_URL}/:path*`
           : "http://localhost:5000/api/:path*",
       },
     ];
