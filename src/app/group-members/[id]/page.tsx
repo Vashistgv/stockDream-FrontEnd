@@ -52,7 +52,7 @@ export default function GroupMembersPage({
     if (!groupId) return;
     async function fetchGroup() {
       try {
-        const response = await API.get(`/api/groups/${groupId}`);
+        const response = await API.get(`/groups/${groupId}`);
         setGroup(response.data.data.group);
         setLoading(false);
       } catch (err) {

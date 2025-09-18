@@ -36,7 +36,7 @@ export default function JoinGroup({
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
   useEffect(() => {
     if (groupId) {
-      API.get(`/api/groups/${groupId}`)
+      API.get(`/groups/${groupId}`)
         .then((res) => {
           const { group, quotes } = res.data.data;
 
@@ -82,7 +82,7 @@ export default function JoinGroup({
 
   const handleJoinGroup = () => {
     if (selectedStocks.length === 5) {
-      API.post(`/api/groups/${groupId}/join`, {
+      API.post(`/groups/${groupId}/join`, {
         userId: currentUser._id || currentUser.id,
         selectedStocks: selectedStocks,
       })
