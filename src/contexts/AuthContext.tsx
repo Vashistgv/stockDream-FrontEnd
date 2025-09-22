@@ -20,12 +20,14 @@ type AuthAction =
   | { type: "CLEAR_ERROR" };
 
 const initialState: AuthState = {
-  user: localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user")!)
-    : null,
-  wallet: localStorage.getItem("wallet")
-    ? JSON.parse(localStorage.getItem("wallet")!)
-    : null,
+  user:
+    typeof window !== "undefined" && localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user")!)
+      : null,
+  wallet:
+    typeof window !== "undefined" && localStorage.getItem("wallet")
+      ? JSON.parse(localStorage.getItem("wallet")!)
+      : null,
   isLoading: false,
   isAuthenticated: false,
   error: null,
