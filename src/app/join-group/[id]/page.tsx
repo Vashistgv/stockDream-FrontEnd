@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "@/utils/API";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { Group } from "@/types";
 
 type Quote = {
   current: number | null;
@@ -29,17 +31,18 @@ export default function JoinGroup({
   params: Promise<{ id: string }>;
 }) {
   const [groupId, setGroupId] = useState<string | null>(null);
+  const [group, setGroup] = useState<Group | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [stocks, setStocks] = useState<Stock[]>([]);
   const router = useRouter();
-  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const { user, wallet } = useAuth();
   useEffect(() => {
     if (groupId) {
       API.get(`/groups/${groupId}`)
         .then((res) => {
           const { group, quotes } = res.data.data;
-
+          setGroup(group);
           // Convert into Stock[]
           const formattedStocks = group.availableStocks.map(
             (symbol: string) => ({
@@ -80,17 +83,43 @@ export default function JoinGroup({
     }
   };
 
-  const handleJoinGroup = () => {
+  const handleJoinGroup = async () => {
     if (selectedStocks.length === 5) {
-      API.post(`/groups/${groupId}/join`, {
-        userId: currentUser._id || currentUser.id,
-        selectedStocks: selectedStocks,
-      })
-        .then((res) => {
-          console.log(res);
-          router.push(`/group-members/${groupId}`);
-        })
-        .catch((err) => console.log(err));
+      if (group?.currentMembers === group?.maxMembers) {
+        toast("Group is full", {
+          description: `Selected: ${selectedStocks.length}/5`,
+          duration: 5000,
+        });
+        setSelectedStocks((prev) => {
+          return prev.filter((s) => !selectedStocks.includes(s));
+        });
+        return;
+      }
+      if (
+        wallet &&
+        typeof wallet.balance === "number" &&
+        typeof group?.entryFee === "number" &&
+        wallet.balance < group.entryFee
+      ) {
+        toast("Insufficient balance", {
+          description: `Selected: ${selectedStocks.length}/5`,
+          duration: 5000,
+        });
+        setSelectedStocks((prev) => {
+          return prev.filter((s) => !selectedStocks.includes(s));
+        });
+        return;
+      }
+      const walletRes = await triggerWallet(group?.entryFee || 0);
+      if (!walletRes?.data?.success) {
+        toast("Wallet debit failed", {
+          description: walletRes?.data?.message || "Please try again",
+          duration: 5000,
+        });
+        return;
+      }
+
+      triggerGroupJoin();
     } else {
       toast("Please select exactly 5 stocks", {
         description: `Selected: ${selectedStocks.length}/5`,
@@ -100,6 +129,28 @@ export default function JoinGroup({
         return prev.filter((s) => !selectedStocks.includes(s));
       });
     }
+  };
+
+  const triggerWallet = async (entryFee: number) => {
+    if (entryFee) {
+      return await API.post(`/wallet/debit`, {
+        amount: entryFee,
+        groupId: groupId,
+        userId: user?._id,
+      });
+    }
+  };
+
+  const triggerGroupJoin = () => {
+    API.post(`/groups/${groupId}/join`, {
+      userId: user?._id,
+      selectedStocks: selectedStocks,
+    })
+      .then((res) => {
+        console.log(res);
+        router.push(`/group-members/${groupId}`);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

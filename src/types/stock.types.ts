@@ -17,3 +17,17 @@ export interface StockCardProps {
   stock: Stock;
   onSelect?: (stock: Stock) => void;
 }
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  summary: string;
+  link: string;
+  published: string;
+}
+
+export interface NewsResponse {
+  items: NewsItem[];
+  page: number;
+  limit: number;
+}

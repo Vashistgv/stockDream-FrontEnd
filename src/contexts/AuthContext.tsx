@@ -1,10 +1,11 @@
 "use client";
 
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import { authService, User, RegisterData, LoginData } from "@/lib/auth";
+import { authService, User, RegisterData, LoginData, WALLET } from "@/lib/auth";
 
 interface AuthState {
   user: User | null;
+  wallet: WALLET | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   error: string | null;
@@ -12,14 +13,19 @@ interface AuthState {
 
 type AuthAction =
   | { type: "LOGIN_START" }
-  | { type: "LOGIN_SUCCESS"; payload: User }
+  | { type: "LOGIN_SUCCESS"; payload: { user: User; wallet: WALLET } }
   | { type: "LOGIN_ERROR"; payload: string }
   | { type: "LOGOUT" }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "CLEAR_ERROR" };
 
 const initialState: AuthState = {
-  user: null,
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user")!)
+    : null,
+  wallet: localStorage.getItem("wallet")
+    ? JSON.parse(localStorage.getItem("wallet")!)
+    : null,
   isLoading: false,
   isAuthenticated: false,
   error: null,
@@ -37,7 +43,8 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.user,
+        wallet: action.payload.wallet,
         isAuthenticated: true,
         isLoading: false,
         error: null,
@@ -88,7 +95,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const response = await authService.getProfile(); // works with cookie or token
         if (response.success && response.data) {
-          dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("wallet", JSON.stringify(response.data.wallet));
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: {
+              user: response.data.user,
+              wallet: response.data.wallet,
+            },
+          });
         } else {
           dispatch({ type: "LOGOUT" });
         }
@@ -111,6 +126,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("wallet", JSON.stringify(response.data.wallet));
         localStorage.setItem("authenticated", "true");
         return { success: true, data: response.data.user };
       } else {
@@ -137,6 +153,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("wallet", JSON.stringify(response.data.wallet));
         localStorage.setItem("authenticated", "true");
         return { success: true, data: response.data.user };
       } else {

@@ -1,8 +1,20 @@
 import API from "@/utils/API";
 
+export type ROLE = "user" | "admin";
+
 export interface User {
-  id: number;
+  _id: number;
   email: string;
+  role: ROLE;
+  totalReturn: number;
+  username: string;
+}
+
+export interface WALLET {
+  balance: Number;
+  totalInvested: Number;
+  totalWon: Number;
+  user: String;
 }
 
 export interface LoginData {
