@@ -123,7 +123,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const response = await authService.login(loginData);
       console.log("response", response);
       if (response.success && response.data.user) {
-        dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: {
+            user: response.data.user,
+            wallet: response.data.wallet,
+          },
+        });
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("wallet", JSON.stringify(response.data.wallet));
@@ -150,7 +156,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const response = await authService.register(registerData);
       if (response.success && response.data.user) {
-        dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: {
+            user: response.data.user,
+            wallet: response.data.wallet,
+          },
+        });
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("wallet", JSON.stringify(response.data.wallet));
