@@ -7,27 +7,7 @@ import GroupStats from "@/components/Group/GroupStats";
 import Leaderboard from "@/components/Group/Leaderboard";
 import API from "@/utils/API";
 import Link from "next/link";
-
-interface Member {
-  id: string;
-  name: string;
-  totalReturn: number;
-  joinedAt: string;
-}
-
-interface GroupData {
-  _id: string;
-  name: string;
-  entryFee: number;
-  prizePool: number;
-  currentMembers: number;
-  maxMembers: number;
-  members: {
-    userId: { _id: string; username: string };
-    joinedAt: string;
-    currentReturn: number;
-  }[];
-}
+import { Group, Member } from "@/types";
 
 export default function GroupMembersPage({
   params,
@@ -35,7 +15,7 @@ export default function GroupMembersPage({
   params: Promise<{ id: string }>;
 }) {
   const [groupId, setGroupId] = useState<string | null>(null);
-  const [group, setGroup] = useState<GroupData | null>(null);
+  const [group, setGroup] = useState<Group | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [isAuth, setIsAuth] = useState<boolean>(false);

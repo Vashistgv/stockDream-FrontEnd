@@ -6,6 +6,7 @@ import DashboardContent from "@/components/dashboard/MainContent";
 import LeaderboardSidebar from "@/components/dashboard/LeaderBoard";
 import { GroupWithQuotes } from "@/types";
 import { fetchAllGroups } from "@/lib/groupAPI";
+import ChatAdvisor from "@/components/Chat/ChatAdvisor";
 
 export default function Dashboard() {
   const [activeGroup, setActiveGroup] = useState<GroupWithQuotes>(
@@ -16,7 +17,7 @@ export default function Dashboard() {
   useEffect(() => {
     (async () => {
       const { data } = await fetchAllGroups();
-      console.log("all groups", data);
+
       setGroups(data);
       if (data.length > 0) {
         setActiveGroup(data[0]);
@@ -32,6 +33,7 @@ export default function Dashboard() {
         setActiveGroup={setActiveGroup}
       />
       <LeaderboardSidebar />
+      <ChatAdvisor groups={groups} activeGroup={activeGroup} />
     </div>
   );
 }

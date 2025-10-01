@@ -19,7 +19,7 @@ export interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ username }) => {
-  const { user, wallet, isAuthenticated, isLoading, logout } = useAuth();
+  const { user, wallet, isAuthenticated, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
       setTheme("dark");
     }
   };
-  console.log("user", user, wallet);
+
   const getThemeIcon = () => {
     switch (theme) {
       case "dark":
@@ -88,22 +88,22 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
+            aria-label={`Toggle theme (current: ${theme})`}
             className="w-8 h-8 sm:w-10 sm:h-10 hover:bg-[rgb(var(--color-primary))]/10"
-            title={`Current: ${theme} theme`}
           >
             <span className="text-base sm:text-lg">{getThemeIcon()}</span>
           </Button>
+
           {wallet?.balance && (
             <Button
               onClick={() => router.push("/WalletHistoryPage")}
-              className={`flex-1 p-4  w-[80px] rounded-lg text-sm
-                bg-[rgb(var(--color-card))]
-                 font-medium transition-colors cursor-pointer border  
-                 border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))`}
+              className="flex items-center gap-2 w-[100px] rounded-lg text-sm bg-[rgb(var(--color-card))] border border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10"
               size="sm"
             >
-              <span className="text-base sm:text-lg">💰</span>
-              <span className="text-base text-amber-200 sm:text-lg">{`${wallet.balance}`}</span>
+              <span>💰</span>
+              <Badge variant="secondary" className="text-amber-400">
+                {`${wallet.balance}`}
+              </Badge>
             </Button>
           )}
 

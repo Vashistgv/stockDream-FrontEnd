@@ -37,8 +37,8 @@ const NewsSidebar: React.FC = () => {
     <div className="sidebar">
       <h2 className="section-title">Market News</h2>
       <div>
-        {news.map((item) => (
-          <div key={item.id} className="news-item">
+        {news.map((item, i) => (
+          <div key={item.id + i} className="news-item">
             <h3 className="font-semibold text-[rgb(var(--color-primary))] text-sm mb-2 leading-tight">
               {item.title}
             </h3>

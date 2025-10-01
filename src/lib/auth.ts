@@ -79,6 +79,7 @@ export const authService = {
     await API.get("/logout")
       .then((response) => {
         console.log("Logout successful");
+        localStorage.clear();
         return response;
       })
       .catch((error) => console.error("Logout failed", error));

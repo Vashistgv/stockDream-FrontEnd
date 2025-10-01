@@ -16,7 +16,6 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
   activeGroup,
   setActiveGroup,
 }) => {
-  console.log("activeGroup", groups);
   return (
     <div className="content ">
       <h1 className="page-title">Fantasy Stocks Dashboard</h1>
