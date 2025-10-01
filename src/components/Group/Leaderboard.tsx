@@ -10,7 +10,7 @@ export default function Leaderboard({ members }: LeaderboardProps) {
       <h2 className="section-title">Leaderboard</h2>
       <div>
         {members.map((member, index) => (
-          <div key={member.id} className="leaderboard-item">
+          <div key={member._id} className="leaderboard-item">
             <div className="rank-badge">{index + 1}</div>
 
             <div className="w-12 h-12 hidden md:flex bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] rounded-full items-center justify-center flex-shrink-0">

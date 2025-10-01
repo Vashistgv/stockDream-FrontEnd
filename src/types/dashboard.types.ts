@@ -23,6 +23,8 @@ export interface Member {
   selectedStocks: string[];
   currentReturn: number;
   _id: string;
+  name: string;
+  totalReturn: number;
 }
 
 export interface Owner {

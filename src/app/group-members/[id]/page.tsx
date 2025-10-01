@@ -78,7 +78,7 @@ export default function GroupMembersPage({
     );
 
   const members: Member[] = (group.members as any).map((m: any) => ({
-    id: m.userId._id,
+    _id: m.userId._id,
     name: m.userId.username,
     totalReturn: m.currentReturn,
     joinedAt: new Date(m.joinedAt).toLocaleDateString(),
