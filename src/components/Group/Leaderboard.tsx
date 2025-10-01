@@ -1,9 +1,4 @@
-interface Member {
-  id: string;
-  name: string;
-  totalReturn: number;
-  joinedAt: string;
-}
+import { Member } from "@/types";
 
 interface LeaderboardProps {
   members: Member[];
