@@ -8,6 +8,15 @@ export interface Quote {
   lastUpdated: string | null;
 }
 
+export interface GroupMember {
+  userId: {
+    _id: string;
+    username: string;
+  };
+  currentReturn: number;
+  joinedAt: string;
+}
+
 export interface Member {
   userId: string;
   joinedAt: string;

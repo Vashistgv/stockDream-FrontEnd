@@ -7,7 +7,7 @@ import GroupStats from "@/components/Group/GroupStats";
 import Leaderboard from "@/components/Group/Leaderboard";
 import API from "@/utils/API";
 import Link from "next/link";
-import { Group, Member } from "@/types";
+import { Group, Member, GroupMember } from "@/types";
 
 export default function GroupMembersPage({
   params,
@@ -77,7 +77,7 @@ export default function GroupMembersPage({
       </div>
     );
 
-  const members: Member[] = group.members.map((m) => ({
+  const members: Member[] = (group.members as any).map((m: any) => ({
     id: m.userId._id,
     name: m.userId.username,
     totalReturn: m.currentReturn,
