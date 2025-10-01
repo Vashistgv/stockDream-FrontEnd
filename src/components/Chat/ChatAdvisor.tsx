@@ -1,18 +1,18 @@
 "use client";
-import React, { useCallback, useState, useEffect, useRef } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MessageCircle, X, Send, Sun, Moon } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+
+import { MessageCircle } from "lucide-react";
 import { useTheme } from "next-themes";
-import "./ChatAdvisor.css";
+import "./chatAdvisor.css";
 import { ChatMessage } from "@/types/chat.types";
-import { StockQuoteTable } from "./StockTable";
+
 import API from "@/utils/API";
 import { useAuth } from "@/contexts/AuthContext";
 import Header from "./chatHeader";
 
 import MessageList from "./MessageList";
 import Composer from "./Composer";
-import { Group, GroupWithQuotes } from "@/types";
+import { GroupWithQuotes } from "@/types";
 
 import { toast } from "sonner";
 

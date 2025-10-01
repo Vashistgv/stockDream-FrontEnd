@@ -10,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import API from "@/utils/API";
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "../ui/badge";
 
@@ -24,14 +23,15 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
 
+  // Prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   const toggleTheme = () => {
-    if (theme === "dark") {
-      setTheme("light");
-    } else if (theme === "light") {
-      setTheme("system");
-    } else {
-      setTheme("dark");
-    }
+    if (theme === "dark") setTheme("light");
+    else if (theme === "light") setTheme("system");
+    else setTheme("dark");
   };
 
   const getThemeIcon = () => {
@@ -46,24 +46,6 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
         return "🌙";
     }
   };
-
-  // useEffect(() => {
-  //   if (isLoading) return;
-  //   let auth = localStorage.getItem("authenticated");
-  //   if (!auth) {
-  //     router.push("/login");
-  //   }
-  // }, []);
-
-  // const logout = () => {
-  //   localStorage.removeItem("auth_token");
-  //   API.get("/api/logout")
-  //     .then(() => {
-  //       console.log("Logout successful");
-  //       router.push("/login");
-  //     })
-  //     .catch((error) => console.error("Logout failed", error));
-  // };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[rgb(var(--color-card))]/95 backdrop-blur-md border-b border-[rgb(var(--color-border))] px-4 sm:px-6 py-4">
@@ -102,47 +84,41 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
             >
               <span>💰</span>
               <Badge variant="secondary" className="text-amber-400">
-                {`${wallet.balance}`}
+                {`${wallet?.balance}`}
               </Badge>
             </Button>
           )}
 
           {/* User Menu */}
           {isAuthenticated ? (
-            <>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="w-8 h-8 sm:w-10 sm:h-10 hover:bg-[rgb(var(--color-primary))]/10"
-                  >
-                    <span className="text-base sm:text-lg">👤</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => router.push("/profile")}>
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      let res = await logout();
-                      console.log("logout", res);
-                      router.push("/login");
-                    }}
-                  >
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-8 h-8 sm:w-10 sm:h-10 hover:bg-[rgb(var(--color-primary))]/10"
+                >
+                  <span className="text-base sm:text-lg">👤</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => router.push("/profile")}>
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={async () => {
+                    await logout();
+                    router.push("/login");
+                  }}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Button
               onClick={() => router.push("/login")}
-              className={`flex-1 p-4  w-[80px] rounded-lg text-sm
-                bg-[rgb(var(--color-card))]
-                 font-medium transition-colors cursor-pointer border  
-                 border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))`}
+              className="flex-1 p-4 w-[80px] rounded-lg text-sm bg-[rgb(var(--color-card))] font-medium transition-colors cursor-pointer border border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10"
               size="sm"
             >
               Login
