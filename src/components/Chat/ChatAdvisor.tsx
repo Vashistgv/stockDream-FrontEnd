@@ -19,7 +19,7 @@ import { toast } from "sonner";
 const SAMPLE_SYSTEM: ChatMessage = {
   id: "s-1",
   role: "system",
-  text: "I am your Stock Advisor — I can answer questions about your groups, portfolio, and the API.",
+  text: "I am your Stock Advisor — I can answer questions about your groups, portfolio, and the Profile Details.",
 };
 
 interface Props {
@@ -93,8 +93,8 @@ const ChatAdvisor = ({ groups, activeGroup }: Props) => {
           payload,
 
           {
-            timeout: 30000, // Response timeout
-            signal: AbortSignal.timeout(50000), // Connection timeout (Node.js 17.3+)
+            timeout: 70000, // Response timeout
+            signal: AbortSignal.timeout(70000), // Connection timeout (Node.js 17.3+)
           }
         );
 

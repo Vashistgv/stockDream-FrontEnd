@@ -51,35 +51,33 @@ const Header: React.FC<HeaderProps> = ({
             isDark ? "text-gray-300" : "text-gray-600"
           }`}
         >
-          <Select
-            onValueChange={(value) => {
-              console.log("selected", value);
-              onGroupSelected(value);
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a Group" />
-            </SelectTrigger>
-
-            <SelectContent
-              className="z-[9999] bg-white text-black border border-gray-200 rounded-md shadow-md"
-              position="popper"
+          <div className="advisor-select">
+            <Select
+              onValueChange={(value) => {
+                console.log("selected", value);
+                onGroupSelected(value);
+              }}
             >
-              {groups.map((item) => (
-                <SelectItem
-                  className="hover:bg-gray-100 cursor-pointer"
-                  key={item.group._id}
-                  value={item.group._id}
-                  // onChange={(value) => {
-                  //   console.log("selected", item.group._id, value);
-                  //   onGroupSelected(item.group._id);
-                  // }}
-                >
-                  {item.group.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              <SelectTrigger className="!px-3 w-[220px]">
+                <SelectValue placeholder="Select a Group" />
+              </SelectTrigger>
+
+              <SelectContent
+                className="z-[9999] bg-white text-black border border-gray-200 rounded-md shadow-md"
+                position="popper"
+              >
+                {groups.map((item) => (
+                  <SelectItem
+                    key={item.group._id}
+                    value={item.group._id}
+                    className="!px-3 !py-2 ml-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    {item.group.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </p>
       </div>
     </div>

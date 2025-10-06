@@ -376,6 +376,32 @@ position: sticky;
 }
 
 
+/* stock dropdown */
+/* Scope only inside .advisor-select */
+.advisor-select .advisor-select-content {
+  z-index: 9999 !important;
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  min-width: 220px !important;
+  padding: 4px 0 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+.advisor-select .advisor-select-item {
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  cursor: pointer !important;
+}
+
+.advisor-select .advisor-select-item:hover {
+  background: #f3f4f6 !important;
+}
+
+
+
 /* Animations */
 @keyframes chat-advisor-pulse {
   0%, 100% {

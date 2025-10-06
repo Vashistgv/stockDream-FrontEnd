@@ -17,7 +17,8 @@ type AuthAction =
   | { type: "LOGIN_ERROR"; payload: string }
   | { type: "LOGOUT" }
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "CLEAR_ERROR" };
+  | { type: "CLEAR_ERROR" }
+  | { type: "UPDATE_WALLET"; payload: WALLET };
 
 const initialState: AuthState = {
   user:
@@ -71,6 +72,9 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return { ...state, isLoading: action.payload };
     case "CLEAR_ERROR":
       return { ...state, error: null };
+    case "UPDATE_WALLET":
+      return { ...state, wallet: action.payload };
+
     default:
       return state;
   }
@@ -81,6 +85,7 @@ interface AuthContextType extends AuthState {
   register: (registerData: RegisterData) => Promise<LoginResponse>;
   logout: () => Promise<LoginResponse>;
   clearError: () => void;
+  updateWallet: (wallet: WALLET) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -203,6 +208,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     dispatch({ type: "CLEAR_ERROR" });
   };
 
+  const updateWallet = (wallet: WALLET) => {
+    localStorage.setItem("wallet", JSON.stringify(wallet));
+    dispatch({ type: "UPDATE_WALLET", payload: wallet });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -211,6 +221,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         register,
         logout,
         clearError,
+        updateWallet,
       }}
     >
       {children}

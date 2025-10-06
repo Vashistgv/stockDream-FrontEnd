@@ -6,6 +6,7 @@ import API from "@/utils/API";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { Group } from "@/types";
+import { authService } from "@/lib/auth";
 
 type Quote = {
   current: number | null;
@@ -36,7 +37,7 @@ export default function JoinGroup({
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [stocks, setStocks] = useState<Stock[]>([]);
   const router = useRouter();
-  const { user, wallet } = useAuth();
+  const { user, wallet, updateWallet } = useAuth();
   useEffect(() => {
     if (groupId) {
       API.get(`/groups/${groupId}`)
@@ -110,16 +111,8 @@ export default function JoinGroup({
         });
         return;
       }
-      const walletRes = await triggerWallet(group?.entryFee || 0);
-      if (!walletRes?.data?.success) {
-        toast("Wallet debit failed", {
-          description: walletRes?.data?.message || "Please try again",
-          duration: 5000,
-        });
-        return;
-      }
 
-      triggerGroupJoin();
+      await triggerGroupJoin();
     } else {
       toast("Please select exactly 5 stocks", {
         description: `Selected: ${selectedStocks.length}/5`,
@@ -131,23 +124,15 @@ export default function JoinGroup({
     }
   };
 
-  const triggerWallet = async (entryFee: number) => {
-    if (entryFee) {
-      return await API.post(`/wallet/debit`, {
-        amount: entryFee,
-        groupId: groupId,
-        userId: user?._id,
-      });
-    }
-  };
-
   const triggerGroupJoin = () => {
     API.post(`/groups/${groupId}/join`, {
       userId: user?._id,
       selectedStocks: selectedStocks,
     })
-      .then((res) => {
-        console.log(res);
+      .then(async (res) => {
+        const response = await authService.getProfile();
+
+        updateWallet(response.data.wallet);
         router.push(`/group-members/${groupId}`);
       })
       .catch((err) => console.log(err));
