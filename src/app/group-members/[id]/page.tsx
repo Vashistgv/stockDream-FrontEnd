@@ -112,7 +112,7 @@ export default function GroupMembersPage({
         <button
           onClick={() => router.push(`/join-group/${group._id}`)}
           disabled={alreadyJoined}
-          className={`w-full sm:w-[200px] font-semibold py-4 px-6 rounded-xl mt-6 transition-opacity
+          className={`w-full sm:w-[200px] font-semibold !py-4 !px-4 rounded-xl mt-6 transition-opacity
       ${
         alreadyJoined
           ? "bg-gray-500 cursor-not-allowed opacity-60"

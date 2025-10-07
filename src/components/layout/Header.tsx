@@ -52,13 +52,13 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div
-          className="flex items-center cursor-pointer group"
+          className="flex items-center cursor-pointer group !ml-1.5 !px-2 !py-2"
           onClick={() => router.push("/dashboard")}
         >
           <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] rounded-lg flex items-center justify-center mr-3">
             <span className="text-white font-bold text-lg sm:text-xl">FS</span>
           </div>
-          <span className="font-bold text-lg sm:text-xl text-[rgb(var(--color-primary))] group-hover:text-[rgb(var(--color-accent))] transition-colors">
+          <span className="font-bold text-lg sm:text-xl !ml-1.5 text-[rgb(var(--color-primary))] group-hover:text-[rgb(var(--color-accent))] transition-colors">
             Fantasy Stocks
           </span>
         </div>
@@ -101,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
                   <span className="text-base sm:text-lg">👤</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="!px-2 !py-2">
                 <DropdownMenuItem onClick={() => router.push("/profile")}>
                   Profile
                 </DropdownMenuItem>
@@ -118,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({ username }) => {
           ) : (
             <Button
               onClick={() => router.push("/login")}
-              className="flex-1 p-4 w-[80px] rounded-lg text-sm bg-[rgb(var(--color-card))] font-medium transition-colors cursor-pointer border border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10"
+              className="flex-1 !p-4 w-[80px] rounded-lg text-sm bg-[rgb(var(--color-card))] font-medium transition-colors cursor-pointer border border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10"
               size="sm"
             >
               Login

@@ -7,8 +7,6 @@ const API = axios.create({
   timeout: 10000, // Optional: set a sensible timeout
 });
 
-console.log("process.env.NEXT_PUBLIC_API_URL", process.env);
-
 // Optional: Interceptors for auth, error handling, etc.
 API.interceptors.request.use(
   (config) => {

@@ -140,7 +140,7 @@ export default function JoinGroup({
 
   return (
     <div className="content">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto !mt-8">
         {/* Header */}
         <div className="mb-8">
           <button
@@ -149,7 +149,7 @@ export default function JoinGroup({
           >
             ← Back to Dashboard
           </button>
-          <h1 className="page-title">Join Group</h1>
+          <h1 className="page-title">Join {group?.name} Group </h1>
           <p className="text-[rgb(var(--color-text-secondary))]">
             Select exactly 5 stocks from {stocks.length} available options
           </p>
@@ -264,11 +264,11 @@ export default function JoinGroup({
         </div>
 
         {/* Join Button */}
-        <div className="sticky bottom-4 pt-6">
+        <div className="sticky bottom-4 pt-6 flex justify-center">
           <button
             onClick={handleJoinGroup}
             disabled={selectedStocks.length !== 5}
-            className={`w-full h-14 text-lg font-semibold rounded-lg transition-all duration-300 ${
+            className={`w-full sm:w-[300px] !px-4 py-4 h-14 text-lg font-semibold rounded-lg transition-all duration-300 ${
               selectedStocks.length === 5
                 ? "bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] text-white hover:opacity-90 cursor-pointer"
                 : "bg-[rgb(var(--color-border))] text-[rgb(var(--color-text-secondary))] cursor-not-allowed"

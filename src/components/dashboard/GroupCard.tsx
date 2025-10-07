@@ -94,7 +94,7 @@ const GroupCard: React.FC<GroupCardProps> = ({ group, isActive, onClick }) => {
           Join
         </button> */}
         <button
-          className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer border ${
+          className={`flex-1 !py-2 !px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer border ${
             isActive
               ? "border-white text-white hover:bg-white/10"
               : "border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-primary))]/10"
