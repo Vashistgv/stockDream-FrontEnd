@@ -7,6 +7,7 @@ const nextConfig = {
     CUSTOM_KEY: process.env.CUSTOM_KEY,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_TARGET_API_URL: process.env.NEXT_TARGET_API_URL,
+    GROQ_API_KEY: process.env.GROQ_API_KEY,
   },
   async rewrites() {
     return [
